@@ -1,0 +1,39 @@
+#header {
+  background-color : black;
+  color:white;
+  height: 60px;
+  text-align: center;
+}
+
+#content-container {
+  display:table;
+  height:400px;
+  width:100%;
+}
+
+#left-sidebar {
+  display: table-cell;
+  background-color:#7E8F7C;
+  display: table-cell;
+  width:10%;
+}
+
+#main-content {
+  vertical-align: top;
+  display: table-cell;
+  background-color:#FDF3E7;
+  width:65%;
+}
+
+#right-sidebar {
+  vertical-align: top;
+  display: table-cell;
+  background-color:#7E8F7C;
+  width:25%;  
+}
+
+#footer {
+  background-color:black;
+  color:white;
+  height:40px;
+}
