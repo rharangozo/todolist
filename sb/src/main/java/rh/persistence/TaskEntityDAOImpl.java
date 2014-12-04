@@ -26,6 +26,16 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
     }
 
     @Override
+    public int save(TaskEntity taskEntity) {
+
+        jdbcTemplate.update("insert into TASK(DESCRIPTION) values(?)", taskEntity.getDescription());
+
+        //TODO
+        //FIXME: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
+        return jdbcTemplate.queryForObject("select TOP 1 ID from TASK ORDER BY ID DESC", Integer.class);
+    }
+
+    @Override
     public void delete(TaskEntity taskEntity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

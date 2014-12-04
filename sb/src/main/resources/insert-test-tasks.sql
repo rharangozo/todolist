@@ -1,2 +1,2 @@
-insert into TASK values (1, 'First Task');
-insert into TASK values (2, 'Second Task');
+insert into TASK(DESCRIPTION) values ('First Task');
+insert into TASK(DESCRIPTION) values ('Second Task');
