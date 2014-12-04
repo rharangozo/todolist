@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -27,8 +28,11 @@ public class Configuration {
 
     @Bean
     public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        return dataSource;
+        return new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.HSQL)
+                .addScript("classpath:database-schema.sql")
+                .addScript("classpath:insert-test-tasks.sql")
+                .build();
     }
 
     @Bean

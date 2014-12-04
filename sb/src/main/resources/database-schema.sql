@@ -1,0 +1,5 @@
+create table TASK (
+    ID INTEGER NOT NULL,
+    DESCRIPTION VARCHAR(50) NOT NULL,
+    PRIMARY KEY(ID)
+);
