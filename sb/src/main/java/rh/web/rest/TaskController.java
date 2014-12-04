@@ -1,6 +1,5 @@
 package rh.web.rest;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rh.domain.TaskEntity;
 
 @RestController
+@RequestMapping("/rest")
 public class TaskController {
 
     @RequestMapping(value = "/tasks/{id}", method = RequestMethod.GET)
