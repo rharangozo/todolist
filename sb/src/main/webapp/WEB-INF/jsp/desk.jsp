@@ -29,7 +29,7 @@
 
                 <ul>
                     <c:forEach items="${tasks}" var="task">
-                        <li>
+                        <li contenteditable="true" data-id="${task.id}">
                             <c:out value="${task.description}"/>
                         </li>
                     </c:forEach>

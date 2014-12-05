@@ -21,8 +21,10 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
     }
 
     @Override
-    public void saveOrUpdate(TaskEntity taskEntity) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void update(TaskEntity taskEntity) {
+        jdbcTemplate.update("update TASK SET DESCRIPTION=? WHERE ID=?", 
+                taskEntity.getDescription(), 
+                taskEntity.getId());
     }
 
     @Override

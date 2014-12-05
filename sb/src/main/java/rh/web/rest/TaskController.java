@@ -34,7 +34,12 @@ public class TaskController {
         response.setHeader("Location", request.getRequestURL().append("/").append(id).toString());
     }
 
-
+    @RequestMapping("task/{id}")
+    public void updateTask(@RequestBody TaskEntity taskEntity, @PathVariable int id) {
+        taskEntity.setId(id);
+        taskEntityDAO.update(taskEntity);
+    }
+    
     @RequestMapping(value = "/task", method = RequestMethod.GET)
     public List<TaskEntity> getListOfTasks() {
         return taskEntityDAO.list();

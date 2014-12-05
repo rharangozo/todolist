@@ -7,7 +7,7 @@ public interface TaskEntityDAO {
 
     public TaskEntity get(int id);
 
-    public void saveOrUpdate(TaskEntity taskEntity);
+    public void update(TaskEntity taskEntity);
 
     public void delete(TaskEntity taskEntity);
 
