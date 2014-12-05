@@ -6,6 +6,9 @@
 
 <html>
     <head>
+        <%-- TODO: DO NOT RELY ON EXTERNAL RESOURCES --%>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="/js/core.js"></script>
         <link rel="stylesheet" type="text/css" href="/css/style.css">
         <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
         <title>Task desk</title>
@@ -22,7 +25,7 @@
             </div><div id="main-content">
 
                 <input id="smart-input" type="text" maxlength="50"/>
-                <button type="button">+</button>
+                <button id="smart-btn" type="button">+</button>
 
                 <ul>
                     <c:forEach items="${tasks}" var="task">
