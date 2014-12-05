@@ -16,12 +16,12 @@
         <div id="header">
             <h3>Task desk</h3>
         </div><div id="content-container">
-            
+
             <div id="left-sidebar">
-                
+
             </div><div id="main-content">
-                
-                <input id="smart-input" type="text" pattern=".{,50}" required/>
+
+                <input id="smart-input" type="text" maxlength="50"/>
                 <button type="button">+</button>
 
                 <ul>
@@ -31,11 +31,11 @@
                         </li>
                     </c:forEach>
                 </ul>
-                
-            </div><div id="right-sidebar">                
+
+            </div><div id="right-sidebar">
             </div>
         </div><div id="footer">
-            
+
         </div>
 
     </body>
