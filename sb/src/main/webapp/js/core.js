@@ -6,7 +6,8 @@ $(document).ready(function () {
         };
         $.ajax({
             type: "POST",
-            url: "/rest/task",
+            //TODO: replace the TESTUSER with valid user
+            url: "/TESTUSER/task",
             data: '{"description":"' + newTask.value + '"}',
             dataType: "text",
             contentType: "application/json",
@@ -27,7 +28,8 @@ $(document).ready(function () {
         console.log("blur - description: " + changedTask.desc + " ID " + changedTask.id);
         $.ajax({
            type : "PUT" ,
-           url : '/rest/task/' + changedTask.id,
+           //TODO: replace the TESTUSER with valid user
+           url : '/TESTUSER/task/' + changedTask.id,
            data : '{"description":"' + changedTask.desc + '"}',
            dataType : 'text',
            contentType: "application/json"

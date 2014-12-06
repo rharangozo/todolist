@@ -12,7 +12,7 @@ public class TaskDeskController {
     @Autowired
     private TaskEntityDAO taskEntityDAO;
 
-    @RequestMapping("/")
+    @RequestMapping("/{user}")
     public ModelAndView getTaskDesk() {
         ModelAndView modelAndView = new ModelAndView("desk");
         modelAndView.addObject("tasks", taskEntityDAO.list());

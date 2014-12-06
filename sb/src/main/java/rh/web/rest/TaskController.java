@@ -15,7 +15,7 @@ import rh.domain.TaskEntity;
 import rh.persistence.TaskEntityDAO;
 
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/{user}")
 public class TaskController {
 
     @Autowired
