@@ -22,15 +22,18 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
 
     @Override
     public void update(TaskEntity taskEntity) {
-        jdbcTemplate.update("update TASK SET DESCRIPTION=? WHERE ID=?", 
-                taskEntity.getDescription(), 
+
+        jdbcTemplate.update("update TASK SET DESCRIPTION=? WHERE ID=?",
+                taskEntity.getDescription(),
                 taskEntity.getId());
     }
 
     @Override
     public int save(TaskEntity taskEntity) {
 
-        jdbcTemplate.update("insert into TASK(DESCRIPTION) values(?)", taskEntity.getDescription());
+        jdbcTemplate.update("insert into TASK(DESCRIPTION, USER_ID) values(?, ?)",
+                taskEntity.getDescription(),
+                taskEntity.getUserId());
 
         //TODO
         //FIXME: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
@@ -43,8 +46,14 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
     }
 
     @Override
-    public List<TaskEntity> list() {
-        return jdbcTemplate.query("select * from TASK", new TaskEntityRowMapper());
+    public List<TaskEntity> list(String userId) {
+        if(userId == null) {
+            throw new NullPointerException("userId parameter must be not null!");
+        }
+
+        return jdbcTemplate.query("select * from TASK WHERE USER_ID = ?",
+                new TaskEntityRowMapper(),
+                userId);
     }
 
     private static class TaskEntityRowMapper implements RowMapper<TaskEntity> {
@@ -54,6 +63,7 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
             TaskEntity task = new TaskEntity();
             task.setId(rs.getInt("ID"));
             task.setDescription(rs.getString("DESCRIPTION"));
+            task.setUserId(rs.getString("USER_ID"));
             return task;
         }
 

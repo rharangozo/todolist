@@ -1,19 +1,20 @@
 $(document).ready(function () {
 
+    var user = window.location.pathname.split('/')[1];
+
     $("#smart-btn").click(function () {
         var newTask = {
             value: $('#smart-input').val()
         };
         $.ajax({
             type: "POST",
-            //TODO: replace the TESTUSER with valid user
-            url: "/TESTUSER/task",
+            url: "/" + user + "/task",
             data: '{"description":"' + newTask.value + '"}',
             dataType: "text",
             contentType: "application/json",
             success: function (data, textStatus, jqXHR) {
                 $('#smart-input').val('');
-                newTask.id = jqXHR.getResponseHeader('Location').split('/').pop()
+                newTask.id = jqXHR.getResponseHeader('Location').split('/').pop();
                 $("#main-content ul").append(
                         '<li contenteditable="true" data-id="' + newTask.id + '">' + newTask.value + "</li>");
             }
@@ -25,11 +26,9 @@ $(document).ready(function () {
             desc : $(this).html().trim(),
             id : $(this).data('id')
         };
-        console.log("blur - description: " + changedTask.desc + " ID " + changedTask.id);
         $.ajax({
            type : "PUT" ,
-           //TODO: replace the TESTUSER with valid user
-           url : '/TESTUSER/task/' + changedTask.id,
+           url : '/' + user + '/task/' + changedTask.id,
            data : '{"description":"' + changedTask.desc + '"}',
            dataType : 'text',
            contentType: "application/json"

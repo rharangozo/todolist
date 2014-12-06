@@ -11,7 +11,7 @@ public interface TaskEntityDAO {
 
     public void delete(TaskEntity taskEntity);
 
-    public List<TaskEntity> list();
+    public List<TaskEntity> list(String userId);
 
     public int save(TaskEntity taskEntity);
 }

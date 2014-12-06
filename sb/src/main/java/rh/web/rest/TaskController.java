@@ -28,8 +28,12 @@ public class TaskController {
 
     @RequestMapping(value = "/task", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTask(@RequestBody TaskEntity taskEntity, HttpServletRequest request, HttpServletResponse response) {
+    public void createTask(@RequestBody TaskEntity taskEntity,
+            @PathVariable String user,
+            HttpServletRequest request,
+            HttpServletResponse response) {
 
+        taskEntity.setUserId(user);
         int id = taskEntityDAO.save(taskEntity);
         response.setHeader("Location", request.getRequestURL().append("/").append(id).toString());
     }
@@ -39,9 +43,9 @@ public class TaskController {
         taskEntity.setId(id);
         taskEntityDAO.update(taskEntity);
     }
-    
+
     @RequestMapping(value = "/task", method = RequestMethod.GET)
-    public List<TaskEntity> getListOfTasks() {
-        return taskEntityDAO.list();
+    public List<TaskEntity> getListOfTasks(@PathVariable String user) {
+        return taskEntityDAO.list(user);
     }
 }

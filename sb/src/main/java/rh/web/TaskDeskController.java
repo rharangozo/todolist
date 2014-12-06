@@ -2,6 +2,7 @@ package rh.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import rh.persistence.TaskEntityDAO;
@@ -13,9 +14,9 @@ public class TaskDeskController {
     private TaskEntityDAO taskEntityDAO;
 
     @RequestMapping("/{user}")
-    public ModelAndView getTaskDesk() {
+    public ModelAndView getTaskDesk(@PathVariable String user) {
         ModelAndView modelAndView = new ModelAndView("desk");
-        modelAndView.addObject("tasks", taskEntityDAO.list());
+        modelAndView.addObject("tasks", taskEntityDAO.list(user));
         return modelAndView;
     }
 }
