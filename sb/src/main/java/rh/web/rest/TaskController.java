@@ -21,6 +21,7 @@ public class TaskController {
     @Autowired
     private TaskEntityDAO taskEntityDAO;
 
+    //TODO: Is it used anywhere?
     @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
     public TaskEntity getTask(@PathVariable int id) {
         return taskEntityDAO.get(id);

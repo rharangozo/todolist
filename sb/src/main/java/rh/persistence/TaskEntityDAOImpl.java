@@ -17,7 +17,8 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
 
     @Override
     public TaskEntity get(int id) {
-        return jdbcTemplate.queryForObject("Select * from TASK where id = ?", new TaskEntityRowMapper(), id);
+        return jdbcTemplate.queryForObject("Select * from TASK where id = ?", 
+                new TaskEntityRowMapper(), id);
     }
 
     @Override
