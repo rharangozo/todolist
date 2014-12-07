@@ -27,6 +27,11 @@ public class TaskController {
         return taskEntityDAO.get(id);
     }
 
+    @RequestMapping(value = "/task/{id}", method = RequestMethod.DELETE)
+    public void deleteTask(@PathVariable int id) {
+        taskEntityDAO.delete(id);
+    }
+    
     @RequestMapping(value = "/task", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void createTask(@RequestBody TaskEntity taskEntity,

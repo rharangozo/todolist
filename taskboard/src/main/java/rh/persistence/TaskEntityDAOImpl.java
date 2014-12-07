@@ -42,8 +42,8 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
     }
 
     @Override
-    public void delete(TaskEntity taskEntity) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM TASK WHERE ID = ?", id);
     }
 
     @Override

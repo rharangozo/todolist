@@ -30,7 +30,7 @@
                 <ul>
                     <c:forEach items="${tasks}" var="task">
                         <li contenteditable="true" data-id="${task.id}">
-                            <c:out value="${task.description}"/>
+                            <c:out value="${task.description}"/><a class="rm-btn">-</a>
                         </li>
                     </c:forEach>
                 </ul>

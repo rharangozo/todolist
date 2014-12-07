@@ -9,7 +9,7 @@ public interface TaskEntityDAO {
 
     public void update(TaskEntity taskEntity);
 
-    public void delete(TaskEntity taskEntity);
+    public void delete(int id);
 
     public List<TaskEntity> list(String userId);
 

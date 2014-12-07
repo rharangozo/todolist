@@ -50,6 +50,15 @@
   background-color:#D9CFC3;
 }
 
+li:hover .rm-btn{
+  display:inline;
+}
+
+.rm-btn {
+  float: right;
+  display:none;
+}
+
 #right-sidebar {
   vertical-align: top;
   display: table-cell;
