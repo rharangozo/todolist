@@ -9,10 +9,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>rh</groupId>
-    <artifactId>sb</artifactId>
+    <artifactId>taskboard</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>sb</name>
+    <name>taskboard</name>
     <url>http://maven.apache.org</url>
 
     <!-- <build> <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId>
