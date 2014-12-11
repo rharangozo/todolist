@@ -2,12 +2,14 @@ package rh.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
+import java.util.Set;
 
 public class TaskEntity {
 
     private int id;
     private String description;
     private String userId;
+    private Set<Tag> tags;
 
     @JsonIgnore //Not expose the user id on the rest API as it is present in the URL
     public String getUserId() {
@@ -32,6 +34,14 @@ public class TaskEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override
