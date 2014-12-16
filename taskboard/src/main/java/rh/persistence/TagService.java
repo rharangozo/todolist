@@ -9,5 +9,5 @@ public interface TagService {
      * Loads the tags to the items in the list!
      * @param tasks
      */
-    void loadTags(List<TaskEntity> tasks);
+    void loadTagsFor(List<TaskEntity> tasks);
 }
