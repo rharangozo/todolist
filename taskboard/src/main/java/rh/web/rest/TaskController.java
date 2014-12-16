@@ -52,6 +52,7 @@ public class TaskController {
 
     @RequestMapping(value = "/task", method = RequestMethod.GET)
     public List<TaskEntity> getListOfTasks(@PathVariable String user) {
+        //TODO: return with list of tasks in which the tags are loaded
         return taskEntityDAO.list(user);
     }
 }

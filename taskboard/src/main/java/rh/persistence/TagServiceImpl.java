@@ -1,6 +1,7 @@
 package rh.persistence;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import rh.domain.TaskEntity;
 public class TagServiceImpl implements TagService {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private TagDAO tagDAO;
 
     @Override
     public void loadTagsFor(List<TaskEntity> tasks) {
@@ -19,11 +20,8 @@ public class TagServiceImpl implements TagService {
             return;
         }
 
-        tasks.stream()
-                .mapToInt(i -> i.getId())
-                .TODO(continue here);
-
-        throw new UnsupportedOperationException("Not supported yet.");
+        tasks.forEach(task -> {
+            task.setTags(tagDAO.listTagsFor(task));
+        });
     }
-
 }
