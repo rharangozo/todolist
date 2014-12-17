@@ -29,9 +29,10 @@
 
                 <ul>
                     <c:forEach items="${tasks}" var="task">
-                        <li contenteditable="true" data-id="${task.id}">
-                            <c:out value="${task.description}"/><a class="rm-btn">-</a>
-                        </li>
+
+                        <c:set var="task" value="${task}" scope="request"/>
+                        <jsp:include page="task.jsp"/>
+
                     </c:forEach>
                 </ul>
 
@@ -40,6 +41,9 @@
         </div><div id="footer">
 
         </div>
-
+        
+        <template id="task-template">
+            <jsp:include page="task.jsp"/>
+        </template>
     </body>
 </html>

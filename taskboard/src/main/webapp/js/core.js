@@ -1,6 +1,16 @@
 $(document).ready(function () {
 
     var user = window.location.pathname.split('/')[1];
+        
+        
+    //TODO: ITS UGLY AND MUST BE FIXED!!! IT DOES NOT WORK BY THE WAY...
+    var taskPrototype = function(id, desc, tag) {
+        var template = $('#task-template').clone();
+        template.find("li [data-id]").attr('data-id', id);
+        template.find(".desc").text(desc);
+        return template.html();
+    };
+    
 
     $("#smart-btn").click(function () {
         var newTask = {
@@ -15,19 +25,16 @@ $(document).ready(function () {
             success: function (data, textStatus, jqXHR) {
                 $('#smart-input').val('');
                 newTask.id = jqXHR.getResponseHeader('Location').split('/').pop();
-                //TODO: Remove the duplication of the LI markup. See desk.jsp.
-                $("#main-content ul").append(
-                        '<li contenteditable="true" data-id="' + newTask.id + '">' + 
-                        newTask.value +
-                        '<a class="rm-btn">-</a></li>');
+                
+                $("#main-content ul").append(taskPrototype(newTask.id, newTask.value));
             }
         });
     });
 
-    $(document).on('blur', 'li[contenteditable]', function () {
+    $(document).on('blur', 'span[contenteditable]', function () {
         var changedTask = {
             desc: $(this).html().trim(),
-            id: $(this).data('id')
+            id: $(this).parent().data('id')
         };
         $.ajax({
             type: "PUT",
