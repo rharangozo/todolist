@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import rh.domain.Task;
-import rh.persistence.dao.TaskDAO;
 import rh.persistence.service.TaskService;
 
 @RestController
@@ -53,7 +52,6 @@ public class TaskController {
 
     @RequestMapping(value = "/task", method = RequestMethod.GET)
     public List<Task> getListOfTasks(@PathVariable String user) {
-        //TODO: return with list of tasks in which the tags are loaded
         return taskService.listTasksWithTagsFor(user);
     }
 }
