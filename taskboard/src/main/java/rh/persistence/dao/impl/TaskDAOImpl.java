@@ -1,4 +1,4 @@
-package rh.persistence;
+package rh.persistence.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,22 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import rh.domain.TaskEntity;
+import rh.domain.Task;
+import rh.persistence.dao.TaskDAO;
 
 @Repository
-public class TaskEntityDAOImpl implements TaskEntityDAO {
+public class TaskDAOImpl implements TaskDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public TaskEntity get(int id) {
+    public Task get(int id) {
         return jdbcTemplate.queryForObject("Select * from TASK where id = ?", 
                 new TaskEntityRowMapper(), id);
     }
 
     @Override
-    public void update(TaskEntity taskEntity) {
+    public void update(Task taskEntity) {
 
         jdbcTemplate.update("update TASK SET DESCRIPTION=? WHERE ID=?",
                 taskEntity.getDescription(),
@@ -30,8 +31,10 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
     }
 
     @Override
-    public int save(TaskEntity taskEntity) {
+    public int save(Task taskEntity) {
 
+        //TODO: validate taskEntity!
+        
         jdbcTemplate.update("insert into TASK(DESCRIPTION, USER_ID) values(?, ?)",
                 taskEntity.getDescription(),
                 taskEntity.getUserId());
@@ -47,7 +50,7 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
     }
 
     @Override
-    public List<TaskEntity> list(String userId) {
+    public List<Task> list(String userId) {
         if(userId == null) {
             throw new NullPointerException("userId parameter must be not null!");
         }
@@ -57,11 +60,11 @@ public class TaskEntityDAOImpl implements TaskEntityDAO {
                 userId);
     }
 
-    private static class TaskEntityRowMapper implements RowMapper<TaskEntity> {
+    private static class TaskEntityRowMapper implements RowMapper<Task> {
 
         @Override
-        public TaskEntity mapRow(ResultSet rs, int i) throws SQLException {
-            TaskEntity task = new TaskEntity();
+        public Task mapRow(ResultSet rs, int i) throws SQLException {
+            Task task = new Task();
             task.setId(rs.getInt("ID"));
             task.setDescription(rs.getString("DESCRIPTION"));
             task.setUserId(rs.getString("USER_ID"));

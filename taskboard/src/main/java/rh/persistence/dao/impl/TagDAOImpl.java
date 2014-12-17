@@ -1,5 +1,6 @@
-package rh.persistence;
+package rh.persistence.dao.impl;
 
+import rh.persistence.dao.TagDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -11,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import rh.domain.Tag;
-import rh.domain.TaskEntity;
+import rh.domain.Task;
 
 @Repository
 public class TagDAOImpl implements TagDAO {
@@ -20,7 +21,7 @@ public class TagDAOImpl implements TagDAO {
     private JdbcTemplate jdbcTemplate;
     
     @Override
-    public Set<Tag> listTagsFor(TaskEntity taskEntity) {
+    public Set<Tag> listTagsFor(Task taskEntity) {
         if(taskEntity == null) {
             return Collections.emptySet();
         }

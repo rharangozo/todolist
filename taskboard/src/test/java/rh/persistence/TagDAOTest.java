@@ -1,5 +1,6 @@
 package rh.persistence;
 
+import rh.persistence.dao.TagDAO;
 import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,14 +13,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import rh.Configuration;
 import rh.categories.IntegrationTests;
 import rh.domain.Tag;
-import rh.domain.TaskEntity;
+import rh.domain.Task;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Configuration.class)
 @Category(IntegrationTests.class)
 public class TagDAOTest {
 
-    private final TaskEntity taskEntity = new TaskEntity();
+    private final Task taskEntity = new Task();
     
     @Autowired
     private TagDAO tagDAO;

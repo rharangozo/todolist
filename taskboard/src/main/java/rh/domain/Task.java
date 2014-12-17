@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 import java.util.Set;
 
-public class TaskEntity {
+public class Task {
 
     private int id;
     private String description;
@@ -61,7 +61,7 @@ public class TaskEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TaskEntity other = (TaskEntity) obj;
+        final Task other = (Task) obj;
         if (this.id != other.id) {
             return false;
         }

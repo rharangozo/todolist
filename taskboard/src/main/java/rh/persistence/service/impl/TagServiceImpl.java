@@ -1,20 +1,20 @@
-package rh.persistence;
+package rh.persistence.service.impl;
 
+import rh.persistence.service.TagService;
+import rh.persistence.dao.TagDAO;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-import rh.domain.TaskEntity;
+import org.springframework.stereotype.Service;
+import rh.domain.Task;
 
-@Repository
+@Service
 public class TagServiceImpl implements TagService {
 
     @Autowired
     private TagDAO tagDAO;
 
     @Override
-    public void loadTagsFor(List<TaskEntity> tasks) {
+    public void loadTagsFor(List<Task> tasks) {
 
         if(tasks == null || tasks.isEmpty()) {
             return;
