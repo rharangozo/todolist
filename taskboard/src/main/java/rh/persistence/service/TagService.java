@@ -10,4 +10,8 @@ public interface TagService {
      * @param tasks
      */
     void loadTagsFor(List<Task> tasks);
+    
+    void removeTagsOf(Task task);
+    
+    void removeTagsOf(int id);
 }

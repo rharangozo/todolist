@@ -12,9 +12,14 @@
     </c:when>
     <c:otherwise>
 
+        
+        
         <c:set var="taskId" value="\${taskId}"/>
         <c:set var="taskDescription" value="\${taskDescription}"/>
-        
+        <jsp:useBean id="tag" scope="page" class="rh.domain.Tag">
+            <jsp:setProperty name="tag" property="tagName" value="\${tagName}"/>
+        </jsp:useBean>
+        <c:set var="tags" value="${[tag]}"/>
     </c:otherwise>
 </c:choose>
 
@@ -23,9 +28,11 @@
 
     <span contenteditable="true" class="desc"><c:out value="${taskDescription}"/></span>
 
-    <c:forEach items="${tags}" var="tag">
-        <span class="tag"><c:out value="${tag.tagName}"/></span>
-    </c:forEach>
-
+    <div class="tag">
+        <c:forEach items="${tags}" var="tag">
+            <span class="tag"><c:out value="${tag.tagName}"/></span>
+        </c:forEach>
+    </div>
+    
     <a class="rm-btn">-</a>
 </li>

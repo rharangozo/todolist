@@ -24,4 +24,14 @@ public class TagServiceImpl implements TagService {
             task.setTags(tagDAO.listTagsFor(task));
         });
     }
+
+    @Override
+    public void removeTagsOf(int id) {
+        tagDAO.removeTagsWhereTaskIdIs(id);
+    }
+
+    @Override
+    public void removeTagsOf(Task task) {
+        removeTagsOf(task.getId());
+    }
 }

@@ -24,7 +24,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTaskBy(int id) {
-        //TODO: remove tags referring to this task
+        tagService.removeTagsOf(id);
         taskDAO.delete(id);
     }
 

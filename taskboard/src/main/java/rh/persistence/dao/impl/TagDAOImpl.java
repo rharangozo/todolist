@@ -34,6 +34,11 @@ public class TagDAOImpl implements TagDAO {
         return new HashSet<>(tags);
     }
 
+    @Override
+    public void removeTagsWhereTaskIdIs(int taskId) {
+        jdbcTemplate.update("DELETE FROM TAG WHERE FK_TASK_ID = ?", taskId);
+    }
+
     private static class TagMapper implements RowMapper<Tag>{
 
         @Override

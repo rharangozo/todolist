@@ -7,20 +7,27 @@ $(document).ready(function () {
         this.desc = '';
         this.tags = [];
         
-        this.initFromStr = function(taskStr) {
-            this.id = null;
-            this.desc = taskStr;
-            //TODO: determine tags
-            this.tags = [];
+        this.initFromStr = function (taskStr) {
+
+            taskStr.split(' ').forEach(function (token) {
+                if (token.indexOf('#') === 0) {
+                    this.tags.push(token);
+                } else {
+                    this.desc += token + ' ';
+                }
+            }, this);
+            this.desc.trim();
         }
       
         this.toHtml = function() {
       
-            template = $('#task-template').clone().html()
+            //TODO: add tag replacements
+            tagsTemplate = '';
+      
+            return $('#task-template').clone().html()
                                 .replace("${taskId}", this.id)
                                 .replace("${taskDescription}", this.desc)
-            //TODO: add tag replacements
-            return template;
+                                .replace("${tagPlaceholder}", tagsTemplate);
         };
     }   
 
