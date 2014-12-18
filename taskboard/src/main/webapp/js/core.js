@@ -1,41 +1,55 @@
 $(document).ready(function () {
 
     var user = window.location.pathname.split('/')[1];
-        
-        
-    //TODO: ITS UGLY AND MUST BE FIXED!!! IT DOES NOT WORK BY THE WAY...
-    var taskPrototype = function(id, desc, tag) {
-        var template = $('#task-template').clone();
-        template.find("li [data-id]").attr('data-id', id);
-        template.find(".desc").text(desc);
-        return template.html();
-    };
     
+    function Task() {
+        this.id = null;
+        this.desc = '';
+        this.tags = [];
+        
+        this.initFromStr = function(taskStr) {
+            this.id = null;
+            this.desc = taskStr;
+            //TODO: determine tags
+            this.tags = [];
+        }
+      
+        this.toHtml = function() {
+      
+            template = $('#task-template').clone().html()
+                                .replace("${taskId}", this.id)
+                                .replace("${taskDescription}", this.desc)
+            //TODO: add tag replacements
+            return template;
+        };
+    }   
 
     $("#smart-btn").click(function () {
-        var newTask = {
-            value: $('#smart-input').val()
-        };
+
+        newTask = new Task();
+        newTask.initFromStr($('#smart-input').val());
+        
         $.ajax({
             type: "POST",
             url: "/" + user + "/task",
-            data: '{"description":"' + newTask.value + '"}',
+            data: '{"description":"' + newTask.desc + '"}',
             dataType: "text",
             contentType: "application/json",
             success: function (data, textStatus, jqXHR) {
                 $('#smart-input').val('');
                 newTask.id = jqXHR.getResponseHeader('Location').split('/').pop();
                 
-                $("#main-content ul").append(taskPrototype(newTask.id, newTask.value));
+                $("#main-content ul").append(newTask.toHtml());
             }
         });
     });
 
     $(document).on('blur', 'span[contenteditable]', function () {
-        var changedTask = {
-            desc: $(this).html().trim(),
-            id: $(this).parent().data('id')
-        };
+
+        changedTask = new Task();
+        changedTask.id = $(this).parent().data('id');
+        changedTask.desc = $(this).html().trim();
+        
         $.ajax({
             type: "PUT",
             url: '/' + user + '/task/' + changedTask.id,
@@ -48,14 +62,14 @@ $(document).ready(function () {
 
     $(document).on('click', '.rm-btn', function () {
         
-        var task = $(this).parent();
+        var taskLi = $(this).parent();
         
         $.ajax({
             type: 'DELETE',
-            url: '/' + user + '/task/' + task.data('id'),
+            url: '/' + user + '/task/' + taskLi.data('id'),
             dataType: 'text',
             success: function() {
-                task.remove();
+                taskLi.remove();
             }
         });
     });

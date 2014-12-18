@@ -3,23 +3,27 @@
 
 <c:choose>
     <c:when test="${not empty requestScope.task}">
-        <c:set var="task" value="${requestScope.task}"/>    
+        
+        <c:set var="taskId" value="${requestScope.task.id}"/>
+        <c:set var="taskDescription" value="${requestScope.task.description}"/>
+        
+        <c:set var="tags" value="${requestScope.task.tags}"/> 
+        
     </c:when>
     <c:otherwise>
-        <jsp:useBean id="task" scope="page" class="rh.domain.Task">
-            <jsp:setProperty name="task" property="id" value="0"/>
-            <jsp:setProperty name="task" property="description" value=""/>
-        </jsp:useBean>
+
+        <c:set var="taskId" value="\${taskId}"/>
+        <c:set var="taskDescription" value="\${taskDescription}"/>
+        
     </c:otherwise>
 </c:choose>
 
 
-<li data-id="${task.id}">
+<li data-id="${taskId}">
 
-    <span contenteditable="true" 
-          class="desc"><c:out value="${task.description}"/></span>
+    <span contenteditable="true" class="desc"><c:out value="${taskDescription}"/></span>
 
-    <c:forEach items="${task.tags}" var="tag">
+    <c:forEach items="${tags}" var="tag">
         <span class="tag"><c:out value="${tag.tagName}"/></span>
     </c:forEach>
 

@@ -43,6 +43,7 @@
         </div>
         
         <template id="task-template">
+            <c:set var="task" value="${null}" scope="request"/> 
             <jsp:include page="task.jsp"/>
         </template>
     </body>
