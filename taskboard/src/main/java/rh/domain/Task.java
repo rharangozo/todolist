@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 import java.util.Set;
 
-//TODO: All usuage of Task should be replaced with ITask if possible and should be renamed properly...
-public class Task implements ITask {
+public class Task {
 
     private int id;
     private String description;
@@ -13,7 +12,6 @@ public class Task implements ITask {
     private Set<Tag> tags;
 
     @JsonIgnore //Not expose the user id on the rest API as it is present in the URL
-    @Override
     public String getUserId() {
         return userId;
     }
@@ -22,7 +20,6 @@ public class Task implements ITask {
         this.userId = userId;
     }
 
-    @Override
     public int getId() {
         return id;
     }
@@ -31,7 +28,6 @@ public class Task implements ITask {
         this.id = id;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }
@@ -40,7 +36,6 @@ public class Task implements ITask {
         this.description = description;
     }
 
-    @Override
     public Set<Tag> getTags() {
         return tags;
     }

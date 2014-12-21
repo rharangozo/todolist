@@ -3,22 +3,20 @@ package rh.web;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
-import rh.domain.ITask;
+import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.ServletContextAware;
 import rh.domain.Tag;
 
-TODO: finish this class and complete task.jsp - consider to refactor the Task and ITask class and interface
+//TODO: write unit test to verify that it has the same getters than the class Task
+@Component("taskPrototype")
+public class TaskPrototype implements ServletContextAware {
 
-@Service
-@Scope(WebApplicationContext.SCOPE_APPLICATION)
-public class TaskPrototype implements ITask{
-
-    public static final int ID_PLACEHOLDER = -1;
-    private final Set<Tag> tagsPrototype;
+    private Set<Tag> tagsPrototype;
     
-    {
+    @PostConstruct
+    public void init() {
         Tag tagPrototype = new Tag();
         tagPrototype.setTagName("${tagName}");
         Set<Tag> tags = new HashSet<>();
@@ -27,21 +25,23 @@ public class TaskPrototype implements ITask{
     }
     
     @Override
+    public void setServletContext(ServletContext sc) {
+        sc.setAttribute("taskPrototype", this);
+    }
+    
     public String getDescription() {
         return "${description}";
     }
 
-    @Override
-    public int getId() {
-        return TaskPrototype.ID_PLACEHOLDER;
+    
+    public String getId() {
+        return "${id}";
     }
 
-    @Override
     public Set<Tag> getTags() {
         return tagsPrototype;
     }
 
-    @Override
     public String getUserId() {
         return "${userId}";
     }

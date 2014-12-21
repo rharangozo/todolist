@@ -21,7 +21,7 @@ $(document).ready(function () {
       
         this.toHtml = function() {
       
-            //TODO: add tag replacements
+            //TODO: add tag replacements: continue: http://codepen.io/anon/pen/ZYOwYd?editors=101
             tagsTemplate = '';
       
             return $('#task-template').clone().html()

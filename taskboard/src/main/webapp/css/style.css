@@ -77,3 +77,11 @@ li:hover .rm-btn{
   width: 350px;
 }
 
+div.tag {
+  display:inline;
+}
+
+span.tag {
+  color:#0099CC;
+  font-style:italic;
+}
