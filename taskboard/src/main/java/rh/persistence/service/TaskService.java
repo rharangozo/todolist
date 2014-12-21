@@ -16,4 +16,6 @@ public interface TaskService {
     public List<Task> listTasksWithTagsFor(String user);
     
     public int saveWithTags(Task task);
+    
+    public void deepUpdate(Task task);
 }

@@ -47,7 +47,7 @@ public class TaskController {
     @RequestMapping("task/{id}")
     public void updateTask(@RequestBody Task taskEntity, @PathVariable int id) {
         taskEntity.setId(id);
-        taskService.update(taskEntity);
+        taskService.deepUpdate(taskEntity);
     }
 
     @RequestMapping(value = "/task", method = RequestMethod.GET)

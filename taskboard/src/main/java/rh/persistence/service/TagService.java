@@ -20,4 +20,6 @@ public interface TagService {
     void persist(Set<Tag> tags, Task task);
     
     void persist(Set<Tag> tags, int taskId);
+
+    public Set<Tag> getTagsOf(Task task);
 }

@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     var user = window.location.pathname.split('/')[1];
     
+    //TODO: continue on coding pen: http://codepen.io/anon/pen/ZYOwYd?editors=101
+    
     function Task() {
         this.id = null;
         this.desc = '';

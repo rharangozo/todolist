@@ -52,4 +52,9 @@ public class TagServiceImpl implements TagService {
         }
         tags.forEach(tag -> tagDAO.save(tag, taskId));
     }
+
+    @Override
+    public Set<Tag> getTagsOf(Task task) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
