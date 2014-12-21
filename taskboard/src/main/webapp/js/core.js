@@ -17,17 +17,23 @@ $(document).ready(function () {
                 }
             }, this);
             this.desc.trim();
-        }
+        };
       
-        this.toHtml = function() {
-      
-            //TODO: add tag replacements: continue: http://codepen.io/anon/pen/ZYOwYd?editors=101
-            tagsTemplate = '';
-      
-            return $('#task-template').clone().html()
-                                .replace("${taskId}", this.id)
-                                .replace("${taskDescription}", this.desc)
-                                .replace("${tagPlaceholder}", tagsTemplate);
+        this.append = function (selector) {
+            
+            $(selector).append($('#task-template').html()
+                    .replace("${id}", this.id)
+                    .replace("${description}", this.desc));
+
+            tagTemplate = $('li[data-id=' + this.id + '] div.tag').html();
+            
+            this.tags.forEach(function (tag) {
+                $('li[data-id=' + this.id + '] div.tag').append(
+                        tagTemplate.replace('${tagName}', tag));
+            }, this);
+            
+            $('li[data-id=' + this.id + '] span.tag:first').remove();
+            //TODO: template should be hidden by default, it should become visible now
         };
     }   
 
@@ -39,14 +45,15 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "/" + user + "/task",
-            data: '{"description":"' + newTask.desc + '"}',
+            data: '{"description":"' + newTask.desc + '","tags":'+
+                    JSON.stringify(newTask.tags)+'}',
             dataType: "text",
             contentType: "application/json",
             success: function (data, textStatus, jqXHR) {
                 $('#smart-input').val('');
                 newTask.id = jqXHR.getResponseHeader('Location').split('/').pop();
                 
-                $("#main-content ul").append(newTask.toHtml());
+                newTask.append("#main-content ul");
             }
         });
     });

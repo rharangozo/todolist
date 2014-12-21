@@ -1,5 +1,6 @@
 package rh.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Objects;
 
 public class Tag {
@@ -7,6 +8,13 @@ public class Tag {
     private int Id;
     
     private String tagName;
+    
+    @JsonCreator
+    public static Tag getInstance(String name) {
+        Tag tag = new Tag();
+        tag.setTagName(name);
+        return tag;
+    }
     
     public String getTagName() {
         return tagName;
