@@ -40,6 +40,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void update(Task taskEntity) {
+        //TODO: modify to update the tags!!!
         taskDAO.update(taskEntity);
     }
 
@@ -50,6 +51,15 @@ public class TaskServiceImpl implements TaskService {
         tagService.loadTagsFor(tasks);
         
         return tasks;
+    }
+
+    @Override
+    public int saveWithTags(Task task) {
+        
+        int taskId = taskDAO.save(task);
+        tagService.persist(task.getTags(), taskId);
+        
+        return taskId;
     }
     
 }

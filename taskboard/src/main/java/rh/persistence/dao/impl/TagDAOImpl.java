@@ -39,6 +39,12 @@ public class TagDAOImpl implements TagDAO {
         jdbcTemplate.update("DELETE FROM TAG WHERE FK_TASK_ID = ?", taskId);
     }
 
+    @Override
+    public void save(Tag tag, int taskId) {
+        jdbcTemplate.update("INSERT INTO TAG(TAG_NAME, FK_TASK_ID) VALUES (?, ?)",
+                tag.getTagName(), taskId);
+    }
+
     private static class TagMapper implements RowMapper<Tag>{
 
         @Override

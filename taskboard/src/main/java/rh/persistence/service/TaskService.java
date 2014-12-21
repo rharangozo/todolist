@@ -14,4 +14,6 @@ public interface TaskService {
     public void update(Task taskEntity);
 
     public List<Task> listTasksWithTagsFor(String user);
+    
+    public int saveWithTags(Task task);
 }

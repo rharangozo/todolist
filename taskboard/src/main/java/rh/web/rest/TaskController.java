@@ -39,9 +39,8 @@ public class TaskController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        taskEntity.setUserId(user);
-        //TODO: save the task along with the new tags
-        int id = taskService.save(taskEntity);
+        taskEntity.setUserId(user);        
+        int id = taskService.saveWithTags(taskEntity);
         response.setHeader("Location", request.getRequestURL().append("/").append(id).toString());
     }
 

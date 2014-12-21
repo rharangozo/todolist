@@ -9,4 +9,6 @@ public interface TagDAO {
     Set<Tag> listTagsFor(Task taskEntity);
     
     void removeTagsWhereTaskIdIs(int taskId);
+
+    public void save(Tag tag, int taskId);
 }
