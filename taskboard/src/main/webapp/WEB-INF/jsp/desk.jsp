@@ -8,7 +8,10 @@
     <head>
         <%-- TODO: DO NOT RELY ON EXTERNAL RESOURCES --%>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+        
         <script src="/js/core.js"></script>
+        
         <link rel="stylesheet" type="text/css" href="/css/style.css">
         <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
         <title>Task desk</title>
@@ -46,5 +49,9 @@
             <c:set var="task" value="${null}" scope="request"/> 
             <jsp:include page="task.jsp"/>
         </template>
-    </body>
+        <%-- TODO: re-use the html markup from task.jsp --%>
+        <template id="tag-template">
+            <span class="tag">\${tag}</span>
+        </template>
+</body>
 </html>

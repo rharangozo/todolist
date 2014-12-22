@@ -26,7 +26,7 @@
   text-align: center;
 }
 
-#main-content div {
+#main-content > div {
   padding-top: 20px;
 }
 
@@ -50,13 +50,14 @@
   background-color:#D9CFC3;
 }
 
-li:hover .rm-btn{
+li:hover a{
   display:inline;
 }
 
-.rm-btn {
-  float: right;
+.normal a {
+  margin-left: 5px;
   display:none;
+  float: right;
 }
 
 #right-sidebar {
@@ -84,4 +85,17 @@ div.tag {
 span.tag {
   color:#0099CC;
   font-style:italic;
+  margin-left:2px;
+}
+
+span.tag::before {
+  content: '#';
+}
+
+.hidden {
+  	display:none;
+}
+
+.editor > input {
+  width: 99%;
 }
