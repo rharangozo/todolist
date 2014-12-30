@@ -54,4 +54,18 @@ public class TaskController {
     public List<Task> getListOfTasks(@PathVariable String user) {
         return taskService.listTasksWithTagsFor(user);
     }
+    
+    @RequestMapping(value = "/task/{id}/top", method = RequestMethod.PUT)
+    public void moveTop(@PathVariable int id) {
+        taskService.moveTop(taskService.getTaskBy(id));
+    }
+    
+    @RequestMapping(value = "/task/{id}/insertAfter/{afterId}", method = RequestMethod.PUT)
+    public void insertAfter(
+            @PathVariable("id") int taskId,
+            @PathVariable("afterId") int afterId) {
+        taskService.insertAfter(
+                taskService.getTaskBy(taskId),
+                taskService.getTaskBy(afterId));
+    }
 }

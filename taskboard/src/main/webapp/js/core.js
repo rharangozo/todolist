@@ -50,7 +50,7 @@ $(document).ready(function () {
                     .find('li[data-id=\\$\\{id\\}]').attr('data-id', this.id);
         };
         
-        //TODO: add view swapping
+        //TODO: add view swapping method
     }
 
     function taskFromNormalView(id) {
@@ -134,7 +134,7 @@ $(document).ready(function () {
     
     $(document).on('click', '.rm-btn', function (event) {
         
-        event.stopPropagation()
+        event.stopPropagation();
         var taskLi = $(this).closest('li');
         
         $.ajax({
@@ -148,12 +148,22 @@ $(document).ready(function () {
     });
 
     $('#main-content ul').sortable({
-        start: function (event, ui) {
-            ui.item.data('start-pos', ui.item.index());
-        },
         update: function (event, ui) {
-            console.log('Updated from :' + ui.item.data('start-pos') + ' to :' + ui.item.index());
-            ui.item.removeAttr('data-start-pos');
+            
+            if(ui.item.index() === 0) {
+                console.log('put ' + ui.item.data('id') + ' to top');
+                
+                $.ajax({
+                    type: 'PUT',
+                    url: '/' + user + '/task/' + ui.item.data('id') + '/top',
+                    dataType: 'text'
+                    //TODO: show a message if it fails
+                });
+                
+            } else {
+                console.log('insert ' + ui.item.data('id') + ' after ' +
+                        ui.item.prev().data('id'));
+            }
         }
     });
 });

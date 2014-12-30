@@ -34,6 +34,7 @@ public class TaskDAOTest {
 
         taskEntityMock.setDescription("Mock Task Entity");
         taskEntityMock.setId(1);
+        taskEntityMock.setOrder(2);
         taskEntityMock.setUserId("mock-user");
     }
 

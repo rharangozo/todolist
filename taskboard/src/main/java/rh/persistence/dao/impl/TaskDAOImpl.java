@@ -23,10 +23,21 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
+    public Task getHead(String userId) {
+        return jdbcTemplate.queryForObject(
+                "select * from TASK where user_id = ? AND TASKORDER = "
+                        + "(select min(taskorder) from TASK where user_id = ?)",
+                new TaskEntityRowMapper(), userId, userId);
+    }
+    
+    @Override
     public void update(Task taskEntity) {
 
-        jdbcTemplate.update("update TASK SET DESCRIPTION=? WHERE ID=?",
+        //TODO: validate that the taskorder to use is free for consistency!!!
+        
+        jdbcTemplate.update("update TASK SET DESCRIPTION=?, TASKORDER = ? WHERE ID=?",
                 taskEntity.getDescription(),
+                taskEntity.getOrder(),
                 taskEntity.getId());
     }
 
@@ -34,9 +45,13 @@ public class TaskDAOImpl implements TaskDAO {
     public int save(Task taskEntity) {
 
         //TODO: validate taskEntity!
+        //TODO: validate that the taskorder is not null
         
-        jdbcTemplate.update("insert into TASK(DESCRIPTION, USER_ID) values(?, ?)",
+        //TODO: validate that the taskorder to use is free for consistency!!!
+        
+        jdbcTemplate.update("insert into TASK(DESCRIPTION, TASKORDER, USER_ID) values(?, ?, ?)",
                 taskEntity.getDescription(),
+                taskEntity.getOrder(),
                 taskEntity.getUserId());
 
         //TODO
@@ -55,7 +70,7 @@ public class TaskDAOImpl implements TaskDAO {
             throw new NullPointerException("userId parameter must be not null!");
         }
 
-        return jdbcTemplate.query("select * from TASK WHERE USER_ID = ?",
+        return jdbcTemplate.query("select * from TASK WHERE USER_ID = ? ORDER BY TASKORDER ASC",
                 new TaskEntityRowMapper(),
                 userId);
     }
@@ -67,6 +82,7 @@ public class TaskDAOImpl implements TaskDAO {
             Task task = new Task();
             task.setId(rs.getInt("ID"));
             task.setDescription(rs.getString("DESCRIPTION"));
+            task.setOrder(rs.getInt("TASKORDER"));
             task.setUserId(rs.getString("USER_ID"));
             return task;
         }

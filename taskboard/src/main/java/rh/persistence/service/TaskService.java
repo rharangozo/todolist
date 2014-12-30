@@ -18,4 +18,8 @@ public interface TaskService {
     public int saveWithTags(Task task);
     
     public void deepUpdate(Task task);
+
+    public void moveTop(Task task);
+
+    public void insertAfter(Task task, Task after);
 }
