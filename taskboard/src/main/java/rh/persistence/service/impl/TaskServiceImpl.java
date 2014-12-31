@@ -111,7 +111,18 @@ public class TaskServiceImpl implements TaskService {
         }
     }
     
-    //TODO: Extract order distribution management
+    //TODO: Extract order distribution management. Idea: task integrity decorator
+    //should be removed and the logic implemented in it and the distribution management
+    //logic implemented in this service should be extracted into a new class
+    //which can be another service.
+    //This TaskServiceImpl should take care of the data integrity instead of that
+    //the DAO does it. And so the new distribution manager can modify the orders
+    //bypassing the constraints on orders which are enfored by this task service
+    //
+    //DAO - do the operation without taking care of integrity
+    //Service - check the data integrity before delegate the call to the DAO, implements
+    //          operations on DAO
+    //Distribution management - Provides free orders, normalize orders 
 
     private Integer beforeHeadOrder(String userId) {
         
