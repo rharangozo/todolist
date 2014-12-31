@@ -3,6 +3,7 @@ package rh.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 import java.util.Set;
+import rh.persistence.service.FreeOrderLookup;
 
 public class Task {
 
@@ -95,5 +96,28 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" + "id=" + id + ", description=" + description + ", userId=" + userId + ", tags=" + tags + ", order=" + order + '}';
+    }
+    
+    public static enum Special {
+
+        NULL;
+
+        private final Task nullTaskObj;
+
+        {
+            Task task = new Task();
+
+            task.setDescription("");
+            task.setId(-1);
+            task.setOrder(FreeOrderLookup.TAIL);
+            task.setTags(null);
+            task.setUserId("");
+
+            nullTaskObj = task;
+        }
+
+        public Task getInstance() {
+            return nullTaskObj;
+        }
     }
 }

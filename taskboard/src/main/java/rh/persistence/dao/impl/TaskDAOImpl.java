@@ -4,13 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
 
-@Repository
+@Repository("nativeTaskDAO")
 public class TaskDAOImpl implements TaskDAO {
 
     @Autowired
@@ -24,35 +25,39 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public Task getHead(String userId) {
-        return jdbcTemplate.queryForObject(
+        Task task;
+        try {
+            task = jdbcTemplate.queryForObject(
                 "select * from TASK where user_id = ? AND TASKORDER = "
                         + "(select min(taskorder) from TASK where user_id = ?)",
                 new TaskEntityRowMapper(), userId, userId);
+        
+        } catch (EmptyResultDataAccessException exception) {
+            
+            task = Task.Special.NULL.getInstance();
+        }
+        return task;
     }
     
     @Override
-    public void update(Task taskEntity) {
+    public void update(Task task) {
 
-        //TODO: validate that the taskorder to use is free for consistency!!!
-        
         jdbcTemplate.update("update TASK SET DESCRIPTION=?, TASKORDER = ? WHERE ID=?",
-                taskEntity.getDescription(),
-                taskEntity.getOrder(),
-                taskEntity.getId());
+                task.getDescription(),
+                task.getOrder(),
+                task.getId());
     }
 
     @Override
-    public int save(Task taskEntity) {
+    public int save(Task task) {
 
         //TODO: validate taskEntity!
         //TODO: validate that the taskorder is not null
         
-        //TODO: validate that the taskorder to use is free for consistency!!!
-        
         jdbcTemplate.update("insert into TASK(DESCRIPTION, TASKORDER, USER_ID) values(?, ?, ?)",
-                taskEntity.getDescription(),
-                taskEntity.getOrder(),
-                taskEntity.getUserId());
+                task.getDescription(),
+                task.getOrder(),
+                task.getUserId());
 
         //TODO
         //FIXME: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
@@ -74,6 +79,8 @@ public class TaskDAOImpl implements TaskDAO {
                 new TaskEntityRowMapper(),
                 userId);
     }
+
+
 
     private static class TaskEntityRowMapper implements RowMapper<Task> {
 
