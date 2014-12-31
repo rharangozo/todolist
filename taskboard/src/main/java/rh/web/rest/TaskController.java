@@ -21,7 +21,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    //TODO: Is it used anywhere?
+    //TODO 3: Is it used anywhere?
     @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
     public Task getTask(@PathVariable int id) {
         return taskService.getTaskBy(id);

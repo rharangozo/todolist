@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-//TODO: configure the rest to return with json and xml representation as well
+//TODO 3: configure the rest to return with json and xml representation as well
 @org.springframework.context.annotation.Configuration
 @ComponentScan({"rh.web", "rh.persistence"})
 @EnableAutoConfiguration

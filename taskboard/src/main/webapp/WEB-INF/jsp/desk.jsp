@@ -6,7 +6,7 @@
 
 <html>
     <head>
-        <%-- TODO: DO NOT RELY ON EXTERNAL RESOURCES --%>
+        <%-- TODO 2: DO NOT RELY ON EXTERNAL RESOURCES --%>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
         
@@ -49,7 +49,7 @@
             <c:set var="task" value="${null}" scope="request"/> 
             <jsp:include page="task.jsp"/>
         </template>
-        <%-- TODO: re-use the html markup from task.jsp --%>
+        <%-- TODO 1: re-use the html markup from task.jsp --%>
         <template id="tag-template">
             <span class="tag">\${tag}</span>
         </template>

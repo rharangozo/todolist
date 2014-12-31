@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 import rh.domain.Tag;
 
-//TODO: write unit test to verify that it has the same getters than the class Task
+//TODO 2: write unit test to verify that it has the same getters than the class Task
+//Maybe this prototype is not needed anymore, the template on the page is being refactored...
 @Component("taskPrototype")
 public class TaskPrototype implements ServletContextAware {
 

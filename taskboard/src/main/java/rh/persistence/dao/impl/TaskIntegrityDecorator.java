@@ -30,7 +30,7 @@ public class TaskIntegrityDecorator implements TaskDAO {
 
     @Override
     public void update(Task task) {
-        //TODO: validate that the taskorder to use is free for consistency!!!
+        
         Task persistedTask = get(task.getId());
         if(!Objects.equals(persistedTask.getOrder(), task.getOrder()) && 
                 !isFreeOrder(task)) {

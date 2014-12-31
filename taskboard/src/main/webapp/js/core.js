@@ -50,7 +50,7 @@ $(document).ready(function () {
                     .find('li[data-id=\\$\\{id\\}]').attr('data-id', this.id);
         };
         
-        //TODO: add view swapping method
+        //TODO 2: add view swapping method
     }
 
     function taskFromNormalView(id) {
@@ -90,7 +90,7 @@ $(document).ready(function () {
             data: JSON.stringify(task),
             dataType: 'text',
             contentType: "application/json"
-                //TODO: if update fails show a message to the user
+                //TODO 2: if update fails show a message to the user
         });
     };
 
@@ -157,7 +157,7 @@ $(document).ready(function () {
                     type: 'PUT',
                     url: '/' + user + '/task/' + ui.item.data('id') + '/top',
                     dataType: 'text'
-                    //TODO: show a message if it fails
+                    //TODO 2: show a message if it fails
                 });
                 
             } else {
@@ -169,7 +169,7 @@ $(document).ready(function () {
                     url: '/' + user + '/task/' + ui.item.data('id') 
                             + '/insertAfter/' + ui.item.prev().data('id'),
                     dataType: 'text'
-                    //TODO: show a message if it fails
+                    //TODO 2: show a message if it fails
                 });
             }
         }

@@ -62,7 +62,6 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     public void update(Task taskEntity) {
-        //TODO: modify to update the tags!!!
         taskDAO.update(taskEntity);
     }
 
@@ -76,7 +75,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deepUpdate(Task task) {
+    public void deepUpdate(Task task) { //TODO 3: rename cascaded update? integration with update method?
         tagService.removeTagsOf(task);
         update(task);
         tagService.persist(task.getTags(), task);
@@ -100,18 +99,16 @@ public class TaskServiceImpl implements TaskService {
             update(task);
         }catch(RuntimeException re){
             
-            //TODO: It is built upon RuntimeException that can be caused some
+            //TODO 1: It is built upon RuntimeException that can be caused some
             //other reason not just that the next order is reserved! It as is can hide
             //other exceptions!
-            //
-            //TODO: The order distribution normalized including the task which will be updated after that
             
             normalizeOrderDistribution(task.getUserId());
             update(task);
         }
     }
     
-    //TODO: Extract order distribution management. Idea: task integrity decorator
+    //TODO 1 : Extract order distribution management. Idea: task integrity decorator
     //should be removed and the logic implemented in it and the distribution management
     //logic implemented in this service should be extracted into a new class
     //which can be another service.
@@ -136,7 +133,7 @@ public class TaskServiceImpl implements TaskService {
             
             normalizeOrderDistribution(userId);
             //Retry to find free order value before the head item
-            head = taskDAO.getHead(userId); //TODO: can normalizeOrderDist return with this instead of query it again...
+            head = taskDAO.getHead(userId); //TODO 2: normalizeOrderDist can return with this instead of query it again...
             freeOrderVal = beforeHeadOrderHelper(head);
         }
         

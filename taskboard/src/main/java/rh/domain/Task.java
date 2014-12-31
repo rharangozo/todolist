@@ -38,7 +38,7 @@ public class Task {
         this.description = description;
     }
 
-    //TODO: It should be a list ordered by names
+    //TODO 2: It should be a list ordered by names
     public Set<Tag> getTags() {
         return tags;
     }

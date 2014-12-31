@@ -26,7 +26,7 @@ public class TagDAOImpl implements TagDAO {
             return Collections.emptySet();
         }
         
-        //TODO: not so good that it needs to be converted
+        //TODO 3: not so good that it needs to be converted
         List<Tag> tags = jdbcTemplate.query("SELECT * FROM TAG WHERE FK_TASK_ID = ?",
                 new Object[]{taskEntity.getId()}, 
                 new TagMapper());

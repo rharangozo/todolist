@@ -51,16 +51,14 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public int save(Task task) {
 
-        //TODO: validate taskEntity!
-        //TODO: validate that the taskorder is not null
+        //TODO 2: validate taskEntity!
         
         jdbcTemplate.update("insert into TASK(DESCRIPTION, TASKORDER, USER_ID) values(?, ?, ?)",
                 task.getDescription(),
                 task.getOrder(),
                 task.getUserId());
 
-        //TODO
-        //FIXME: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
+        //TODO 0: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
         return jdbcTemplate.queryForObject("select TOP 1 ID from TASK ORDER BY ID DESC", Integer.class);
     }
 
