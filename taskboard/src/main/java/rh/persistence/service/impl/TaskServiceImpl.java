@@ -108,7 +108,8 @@ public class TaskServiceImpl implements TaskService {
         }
     }
     
-    //TODO 1 : Extract order distribution management. Idea: task integrity decorator
+    //TODO 0 : (See UniformOrderDistMgr!) Extract order distribution management. 
+    //Idea: task integrity decorator
     //should be removed and the logic implemented in it and the distribution management
     //logic implemented in this service should be extracted into a new class
     //which can be another service.

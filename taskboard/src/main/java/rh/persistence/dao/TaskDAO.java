@@ -16,4 +16,6 @@ public interface TaskDAO {
     public List<Task> list(String userId);
 
     public int save(Task taskEntity);
+
+    public Task next(Task task);
 }
