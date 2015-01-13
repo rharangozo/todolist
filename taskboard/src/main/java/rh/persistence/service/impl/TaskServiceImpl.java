@@ -12,6 +12,8 @@ import rh.persistence.service.NoFreeOrderException;
 import rh.persistence.service.TagService;
 import rh.persistence.service.TaskService;
 
+//TODO 3 : it should be validated that the resource is not modified on update and removal
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
