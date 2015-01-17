@@ -18,4 +18,6 @@ public interface TaskDAO {
     public int save(Task taskEntity);
 
     public Task next(Task task);
+    
+    public boolean isAllocatable(Task task);
 }

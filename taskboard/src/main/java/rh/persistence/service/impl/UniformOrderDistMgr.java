@@ -2,7 +2,7 @@ package rh.persistence.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
@@ -15,7 +15,7 @@ import rh.persistence.service.OrderDistManager;
 @Service
 public class UniformOrderDistMgr implements OrderDistManager {
 
-    @Resource(name = "nativeTaskDAO")
+    @Autowired
     private TaskDAO taskDAO;
     
     //TODO 1: make it configurable

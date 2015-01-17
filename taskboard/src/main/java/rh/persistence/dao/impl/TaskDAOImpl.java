@@ -3,6 +3,7 @@ package rh.persistence.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
 
-@Repository("nativeTaskDAO")
+@Repository
 public class TaskDAOImpl implements TaskDAO {
 
     @Autowired
@@ -58,7 +59,7 @@ public class TaskDAOImpl implements TaskDAO {
                 task.getOrder(),
                 task.getUserId());
 
-        //TODO 1: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
+        //TODO 2: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
         return jdbcTemplate.queryForObject("select TOP 1 ID from TASK ORDER BY ID DESC", Integer.class);
     }
 
@@ -94,6 +95,17 @@ public class TaskDAOImpl implements TaskDAO {
         }
         return nextTask;
         
+    }
+    
+    @Override
+    public boolean isAllocatable(Task task) {
+        return Objects.equals(
+                jdbcTemplate.queryForObject(
+                        "select count(*) from TASK where taskorder = ? and USER_ID = ?",
+                        Integer.class,
+                        task.getOrder(),
+                        task.getUserId()),
+                0);
     }
 
     private static class TaskEntityRowMapper implements RowMapper<Task> {

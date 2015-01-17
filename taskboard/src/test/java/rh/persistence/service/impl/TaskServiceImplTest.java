@@ -44,4 +44,18 @@ public class TaskServiceImplTest {
         }
     }
     
+    @Test(expected = RuntimeException.class)
+    public void checkOrderUniqueConstraint() {
+        int id = -1;
+        try{
+            id = ts.save(taskMock);
+            assertNotEquals("Id -1 is invalid!", id, -1);
+            
+            //Attempt to save a task with a used order value
+            ts.save(taskMock);
+        }finally{
+            ts.deleteTaskBy(id);
+        }
+    }
+    
 }

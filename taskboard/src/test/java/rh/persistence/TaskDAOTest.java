@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import rh.Configuration;
@@ -27,7 +28,7 @@ public class TaskDAOTest {
     private final Task taskEntityMock = new Task();
     private final Task taskEntityMock2 = new Task();
     
-    @Resource(name = "taskDAO")
+    @Autowired
     private TaskDAO taskEntityDAO;
 
     @Before
@@ -67,20 +68,6 @@ public class TaskDAOTest {
         listAfterDelete.removeAll(listWithoutNewTask);
         
         assertTrue("Probably the removal does not work", listAfterDelete.isEmpty());
-    }
-    
-    @Test(expected = RuntimeException.class)
-    public void checkOrderUniqueConstraint() {
-        int id = -1;
-        try{
-            id = taskEntityDAO.save(taskEntityMock);
-            assertNotEquals("Id -1 is invalid!", id, -1);
-            
-            //Attempt to save a task with a used order value
-            taskEntityDAO.save(taskEntityMock);
-        }finally{
-            taskEntityDAO.delete(id);
-        }
     }
 
     @Test(expected = RuntimeException.class)
