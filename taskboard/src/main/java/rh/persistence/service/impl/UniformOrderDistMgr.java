@@ -19,12 +19,11 @@ public class UniformOrderDistMgr implements OrderDistManager {
     @Autowired
     private TaskDAO taskDAO;
     
-    //TODO 1: make it configurable
-    @Value("#{order.limit.low}")
+    @Value("${order.limit.low}")
     private Integer lowLimit;
     
-    //TODO 1: make it configurable
-    private Integer highLimit = 1000;
+    @Value("${order.limit.high}")
+    private Integer highLimit;
     
     @Override
     public Integer getOrderForHead(String userId) {
