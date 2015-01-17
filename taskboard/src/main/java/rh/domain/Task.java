@@ -3,7 +3,6 @@ package rh.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 import java.util.Set;
-import rh.persistence.service.FreeOrderLookup;
 
 public class Task {
 
@@ -109,8 +108,7 @@ public class Task {
 
             task.setDescription("");
             task.setId(-1);
-            //TODO 0 : It must be the highlimit instead of the integer max val.
-            task.setOrder(FreeOrderLookup.TAIL);
+            task.setOrder(Integer.MAX_VALUE);
             task.setTags(null);
             task.setUserId("");
 

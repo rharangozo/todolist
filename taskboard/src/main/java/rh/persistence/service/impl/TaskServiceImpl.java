@@ -1,14 +1,12 @@
 package rh.persistence.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
-import rh.persistence.service.FreeOrderLookup;
-import rh.persistence.service.NoFreeOrderException;
+import rh.persistence.service.OrderDistManager;
 import rh.persistence.service.TagService;
 import rh.persistence.service.TaskService;
 
@@ -27,7 +25,7 @@ public class TaskServiceImpl implements TaskService {
     private TagService tagService;
     
     @Autowired
-    private FreeOrderLookup fol;
+    private OrderDistManager distMgr;
     
     @Override
     public Task getTaskBy(int id) {
@@ -47,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
             throw new NullPointerException("User to which the task to save needs to be defined");
         }
         
-        Integer order = beforeHeadOrder(task.getUserId());
+        Integer order = distMgr.getOrderForHead(task.getUserId());
         task.setOrder(order);   
         
         return taskDAO.save(task);
@@ -86,7 +84,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void moveTop(Task task) {
 
-        Integer order = beforeHeadOrder(task.getUserId());
+        Integer order = distMgr.getOrderForHead(task.getUserId());
         task.setOrder(order);
         
         taskDAO.update(task);
@@ -95,27 +93,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void insertAfter(Task task, Task after) {
 
-        Integer orderToInsert = after.getOrder() + 1;
-        task.setOrder(orderToInsert);
-        try{
-            update(task);
-        }catch(RuntimeException re){
-            
-            //TODO 1: It is built upon RuntimeException that can be caused some
-            //other reason not just that the next order is reserved! It as is can hide
-            //other exceptions!
-            
-            normalizeOrderDistribution(task.getUserId());
-            update(task);
-        }
+        Integer order = distMgr.getOrderAfter(after);
+        task.setOrder(order);
+        update(task);        
     }
     
-    //TODO 0 : (See UniformOrderDistMgr!) Extract order distribution management. 
-    //Idea: task integrity decorator
-    //should be removed and the logic implemented in it and the distribution management
-    //logic implemented in this service should be extracted into a new class
-    //which can be another service.
-    //This TaskServiceImpl should take care of the data integrity instead of that
+    //TODO 0 : This TaskServiceImpl should take care of the data integrity instead of that
     //the DAO does it. And so the new distribution manager can modify the orders
     //bypassing the constraints on orders which are enfored by this task service
     //
@@ -123,42 +106,5 @@ public class TaskServiceImpl implements TaskService {
     //Service - check the data integrity before delegate the call to the DAO, implements
     //          operations on DAO
     //Distribution management - Provides free orders, normalize orders 
-
-    private Integer beforeHeadOrder(String userId) {
-        
-        Task head = taskDAO.getHead(userId);
-        
-        Integer freeOrderVal;
-        try {
-            freeOrderVal = beforeHeadOrderHelper(head);
-            
-        } catch (NoFreeOrderException nfoe) {
-            
-            normalizeOrderDistribution(userId);
-            //Retry to find free order value before the head item
-            head = taskDAO.getHead(userId); //TODO 2: normalizeOrderDist can return with this instead of query it again...
-            freeOrderVal = beforeHeadOrderHelper(head);
-        }
-        
-        return freeOrderVal;
-    }
-
-    private Integer beforeHeadOrderHelper(Task head) {
-        return fol.freeOrderBetween(FreeOrderLookup.HEAD, head.getOrder());
-    }
-
-    private void normalizeOrderDistribution(String userId) {
-        List<Task> tasks = taskDAO.list(userId);
-        Iterator<Integer> newOrdersIterator = 
-                fol.orderReDistribution(
-                        FreeOrderLookup.HEAD, 
-                        FreeOrderLookup.TAIL, 
-                        tasks.size());
-        
-        tasks.forEach(task -> {
-            task.setOrder(newOrdersIterator.next());
-            nativeTaskDAO.update(task);
-        });
-    }
 
 }

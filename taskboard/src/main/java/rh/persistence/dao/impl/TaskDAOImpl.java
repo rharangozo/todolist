@@ -58,7 +58,7 @@ public class TaskDAOImpl implements TaskDAO {
                 task.getOrder(),
                 task.getUserId());
 
-        //TODO 0: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
+        //TODO 1: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
         return jdbcTemplate.queryForObject("select TOP 1 ID from TASK ORDER BY ID DESC", Integer.class);
     }
 
@@ -84,7 +84,7 @@ public class TaskDAOImpl implements TaskDAO {
         Task nextTask;
         try {
             nextTask = jdbcTemplate.queryForObject(
-                    "select TOP 1 * from TASK where TASKORDER > ? and USER_ID = ? ASC",
+                    "select TOP 1 * from TASK where TASKORDER > ? and USER_ID = ? ORDER BY TASKORDER ASC",
                     new Object[]{task.getOrder(), task.getUserId()},
                     new TaskEntityRowMapper());
 

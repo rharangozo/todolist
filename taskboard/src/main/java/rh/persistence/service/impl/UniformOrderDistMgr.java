@@ -2,24 +2,27 @@ package rh.persistence.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
 import rh.persistence.service.NoFreeOrderException;
 import rh.persistence.service.OrderDistManager;
 
+//TODO 2 : Defect: The user can add the maximum number of tasks but then
+//the order of the tasks is not modifiable, no free space error is thrown
+
 @Service
 public class UniformOrderDistMgr implements OrderDistManager {
 
-    @Autowired
+    @Resource(name = "nativeTaskDAO")
     private TaskDAO taskDAO;
     
     //TODO 1: make it configurable
-    private Integer lowLimit = 0;
+    private Integer lowLimit = 1;
     
     //TODO 1: make it configurable
-    private Integer highLimit = 10;
+    private Integer highLimit = 1000;
     
     @Override
     public Integer getOrderForHead(String userId) {
