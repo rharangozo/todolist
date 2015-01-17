@@ -78,7 +78,23 @@ public class TaskDAOImpl implements TaskDAO {
                 userId);
     }
 
+    @Override
+    public Task next(Task task) {
+        //TODO 2 : validate task
+        Task nextTask;
+        try {
+            nextTask = jdbcTemplate.queryForObject(
+                    "select TOP 1 * from TASK where TASKORDER > ? and USER_ID = ? ASC",
+                    new Object[]{task.getOrder(), task.getUserId()},
+                    new TaskEntityRowMapper());
 
+        } catch (EmptyResultDataAccessException exception) {
+
+            nextTask = Task.Special.NULL.getInstance();
+        }
+        return nextTask;
+        
+    }
 
     private static class TaskEntityRowMapper implements RowMapper<Task> {
 

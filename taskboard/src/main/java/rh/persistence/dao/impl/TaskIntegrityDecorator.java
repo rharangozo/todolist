@@ -64,6 +64,11 @@ public class TaskIntegrityDecorator implements TaskDAO {
         return taskDAO.save(task);
     }
 
+    @Override
+    public Task next(Task task) {
+        return taskDAO.next(task);
+    }
+    
     private boolean isFreeOrder(Task task) {
         return Objects.equals(
                 jdbcTemplate.queryForObject(

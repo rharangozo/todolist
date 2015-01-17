@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
+import rh.persistence.service.NoFreeOrderException;
 import rh.persistence.service.OrderDistManager;
 
 @Service
@@ -36,11 +37,10 @@ public class UniformOrderDistMgr implements OrderDistManager {
 
     @Override
     public Integer getOrderAfter(Task task) {
-        //TODO 0: If next does not exist, 
-        //the null object's order property should be the highLimit! 
-        Task next = taskDAO.next(task);
-        if(task.getOrder() + 1 < next.getOrder()) {
-            return (next.getOrder() - task.getOrder()) / 2 + task.getOrder();
+
+        Integer nextOrder = nextOrderOrMaxLimit(task);
+        if(task.getOrder() + 1 < nextOrder) {
+            return (nextOrder - task.getOrder()) / 2 + task.getOrder();
         } else {
             return normalizationAndInjectionAfter(task);
         }
@@ -48,7 +48,18 @@ public class UniformOrderDistMgr implements OrderDistManager {
 
     @Override
     public void normalization(String userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        List<Task> tasks = taskDAO.list(userId);
+        
+        if(tasks.isEmpty()) {
+            return;
+        }
+        
+        OrderDistGenerator generator = new OrderDistGenerator(tasks.size());
+        
+        for(int i = 0; generator.hasNext(); ++i) {
+            updateTasksItemWithNextOrderValue(tasks, i, generator);
+        }
     }
 
     void setTaskDAO(TaskDAO taskDAO) {
@@ -70,12 +81,12 @@ public class UniformOrderDistMgr implements OrderDistManager {
         checkCapacity(tasks);
         
         Iterator<Integer> generator = new OrderDistGenerator(tasks.size() + 1);
-        Integer ret = generator.next();
+        Integer freeOrder = generator.next();
         
         for(int i = 0; generator.hasNext(); ++i) {
-            updateTask(tasks, i, generator);
+            updateTasksItemWithNextOrderValue(tasks, i, generator);
         }
-        return ret;        
+        return freeOrder;        
     }
 
     private Integer normalizationAndInjectionAfter(Task afterTask) {
@@ -85,31 +96,38 @@ public class UniformOrderDistMgr implements OrderDistManager {
         checkCapacity(tasks);
         
         Iterator<Integer> generator = new OrderDistGenerator(tasks.size() + 1);
-        Integer ret = null;
+        Integer freeOrder = null;
         
         for(int i = 0; generator.hasNext(); ++i) {
-            Task task = updateTask(tasks, i, generator);
+            Task task = updateTasksItemWithNextOrderValue(tasks, i, generator);
             
-            if(ret == null && task.getId() == afterTask.getId()) {
-                ret = generator.next();
+            if(freeOrder == null && task.getId() == afterTask.getId()) {
+                freeOrder = generator.next();
             }
         }
         
-        return ret;
+        return freeOrder;
     }
     
     private void checkCapacity(List<Task> tasks) throws RuntimeException {
         if(tasks.size() >= (highLimit - lowLimit + 1)) {
-            //TODO 1 - No free space
-            throw new RuntimeException();
+            throw new NoFreeOrderException();
         }
     }
 
-    private Task updateTask(List<Task> tasks, int i, Iterator<Integer> generator) {
+    private Task updateTasksItemWithNextOrderValue(List<Task> tasks, int i, Iterator<Integer> generator) {
         Task task = tasks.get(i);
         task.setOrder(generator.next());
         taskDAO.update(task);
         return task;
+    }
+
+    private Integer nextOrderOrMaxLimit(Task task) {
+        Task nextTask = taskDAO.next(task);
+        if(Task.Special.NULL.getInstance().equals(nextTask)) {
+            return this.highLimit;
+        }
+        return nextTask.getOrder();
     }
     
     private class OrderDistGenerator implements Iterator<Integer> {

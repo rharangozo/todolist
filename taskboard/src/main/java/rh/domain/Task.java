@@ -109,6 +109,7 @@ public class Task {
 
             task.setDescription("");
             task.setId(-1);
+            //TODO 0 : It must be the highlimit instead of the integer max val.
             task.setOrder(FreeOrderLookup.TAIL);
             task.setTags(null);
             task.setUserId("");

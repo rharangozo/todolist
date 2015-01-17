@@ -9,6 +9,7 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
+import rh.persistence.service.NoFreeOrderException;
 
 public class UniformOrderDistMgrTest {
 
@@ -46,8 +47,7 @@ public class UniformOrderDistMgrTest {
         });
     }
     
-    //TODO 1 - Create new exception for this case!
-    @Test(expected = RuntimeException.class)
+    @Test(expected = NoFreeOrderException.class)
     public void testWhenFull() {
         Task head = mock(Task.class);
         head.setOrder(2);
@@ -111,6 +111,38 @@ public class UniformOrderDistMgrTest {
         assertEquals(Integer.valueOf(4), ret);
     }
 
+    @Test
+    public void testNormalization() {
+        List<Task> tasks = new ArrayList();
+        
+        tasks.add(newTask(1, 2));
+        tasks.add(newTask(2, 6));
+        
+        TaskDAO taskDAO = mock(TaskDAO.class);
+        when(taskDAO.list(anyString())).thenReturn(tasks);
+        
+        distMgr.setTaskDAO(taskDAO);
+        
+        distMgr.normalization("anystring");
+        
+        assertEquals(Integer.valueOf(3), tasks.get(0).getOrder());
+        assertEquals(Integer.valueOf(5), tasks.get(1).getOrder());
+    }
+    
+    @Test
+    public void lookUpFreeOrderForFirstTask() {
+        List<Task> tasks = new ArrayList();
+        
+        TaskDAO taskDAO = mock(TaskDAO.class);
+        when(taskDAO.list(anyString())).thenReturn(tasks);
+        when(taskDAO.getHead(anyString())).thenReturn(Task.Special.NULL.getInstance());
+        
+        distMgr.setTaskDAO(taskDAO);
+        
+        distMgr.normalization("anystring");
+        assertEquals(Integer.valueOf(4), distMgr.getOrderForHead("anystring"));
+    }
+    
     private Task newTask(int id, int order) {
         Task task = new Task();
         task.setId(id);
