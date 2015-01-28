@@ -46,4 +46,8 @@ public class TaskPrototype implements ServletContextAware {
     public String getUserId() {
         return "${userId}";
     }
+    
+    public boolean isComplete() {
+        return false;
+    }
 }

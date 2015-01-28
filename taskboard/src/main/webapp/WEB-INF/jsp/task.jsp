@@ -11,8 +11,7 @@
     </c:otherwise>
 </c:choose>
 
-
-<li data-id="${task.id}" class="${cssClass}">
+<li data-id="${task.id}" ${task.complete eq true ? 'data-completed' : ''} class="${cssClass}">
 
     <div class="hidden editor">
         <input type="text" value="${task.description}"/>
