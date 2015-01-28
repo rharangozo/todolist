@@ -153,7 +153,7 @@ $(document).ready(function () {
         var taskLi = $(this).closest('li');
         var task = taskFromNormalView(taskLi.data('id'));
         
-        //TODO 2: the completeness should be stored!
+        //TODO 0: the completeness should be stored! SEE BELOW!
         task.complete = true;
         
         $.ajax({
@@ -163,6 +163,11 @@ $(document).ready(function () {
             dataType: "text",
             contentType: "application/json",
             success: function () {
+                //TODO 0: INSTEAD OF REMOVAL, CROSS IT WITH A LINE
+                //OR HIDE IT IN ASSOCIATION WITH THE STATE OF THE VIEW
+                //WHICH CAN BE SHOW/HIDE TASKS COMPLETED
+                //IMPLEMENTATION: STORE THE COMPLETENESS AND
+                //IF IT CHANGES IN THE DOM, UPDATE THE VIEW ACCORDINGLY!
                 taskLi.remove();
             }
         });

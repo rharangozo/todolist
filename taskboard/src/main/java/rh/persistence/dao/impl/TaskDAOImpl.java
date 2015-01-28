@@ -79,7 +79,7 @@ public class TaskDAOImpl implements TaskDAO {
         }
 
         return jdbcTemplate.query("select * from TASK "
-                + "WHERE USER_ID = ? AND COMPLETE = FALSE ORDER BY TASKORDER ASC",
+                + "WHERE USER_ID = ? ORDER BY TASKORDER ASC",
                 new TaskEntityRowMapper(),
                 userId);
     }
