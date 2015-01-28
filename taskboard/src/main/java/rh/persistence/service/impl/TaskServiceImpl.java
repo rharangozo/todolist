@@ -102,6 +102,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void insertAfter(Task task, Task after) {
 
+        //TODO 0: DEFECT - steps to reproduce:
+        //1. start app - list testuser's task
+        //2. insert a new task and drag&drop between the two tasks
+        //3. complete the new task by clicking on the pipe
+        //4. create a new task again and move to between them again - error 500!
+        
         Integer order = distMgr.getOrderAfter(after);
         task.setOrder(order);
         update(task);        

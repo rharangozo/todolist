@@ -11,6 +11,7 @@ public class Task {
     private String userId;
     private Set<Tag> tags;
     private Integer order;
+    private boolean complete;
 
     @JsonIgnore //Not expose the user id on the rest API as it is present in the URL
     public String getUserId() {
@@ -54,14 +55,17 @@ public class Task {
         this.order = order;
     }
 
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this.id;
-        hash = 97 * hash + Objects.hashCode(this.description);
-        hash = 97 * hash + Objects.hashCode(this.userId);
-        hash = 97 * hash + Objects.hashCode(this.tags);
-        hash = 97 * hash + Objects.hashCode(this.order);
         return hash;
     }
 
@@ -89,13 +93,18 @@ public class Task {
         if (!Objects.equals(this.order, other.order)) {
             return false;
         }
+        if (this.complete != other.complete) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Task{" + "id=" + id + ", description=" + description + ", userId=" + userId + ", tags=" + tags + ", order=" + order + '}';
-    }
+        return "Task{" + "id=" + id + ", description=" + description + 
+                ", userId=" + userId + ", tags=" + tags + ", order=" + order + 
+                ", complete=" + complete + '}';
+    }    
     
     public static enum Special {
 
@@ -111,6 +120,7 @@ public class Task {
             task.setOrder(Integer.MAX_VALUE);
             task.setTags(null);
             task.setUserId("");
+            task.setComplete(false);
 
             nullTaskObj = task;
         }

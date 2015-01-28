@@ -146,6 +146,27 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $(document).on('click', '.done-btn', function (event) {
+        
+        event.stopPropagation();
+        var taskLi = $(this).closest('li');
+        var task = taskFromNormalView(taskLi.data('id'));
+        
+        //TODO 2: the completeness should be stored!
+        task.complete = true;
+        
+        $.ajax({
+            type: "PUT",
+            url: "/" + user + "/task/" + task.id,
+            data: JSON.stringify(task),
+            dataType: "text",
+            contentType: "application/json",
+            success: function () {
+                taskLi.remove();
+            }
+        });
+    });
 
     $('#main-content ul').sortable({
         update: function (event, ui) {

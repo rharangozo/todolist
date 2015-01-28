@@ -13,6 +13,11 @@ public interface TaskDAO {
 
     public void delete(int id);
 
+    /**
+     * List the incomplete tasks of the given user
+     * @param userId user
+     * @return incomplete tasks of the user
+     */
     public List<Task> list(String userId);
 
     public int save(Task taskEntity);

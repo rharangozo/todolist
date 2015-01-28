@@ -43,9 +43,11 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public void update(Task task) {
 
-        jdbcTemplate.update("update TASK SET DESCRIPTION=?, TASKORDER = ? WHERE ID=?",
+        jdbcTemplate.update("update TASK SET DESCRIPTION=?, TASKORDER = ?, COMPLETE=? "
+                + "WHERE ID=?",
                 task.getDescription(),
                 task.getOrder(),
+                task.isComplete(),
                 task.getId());
     }
 
@@ -54,10 +56,12 @@ public class TaskDAOImpl implements TaskDAO {
 
         //TODO 2: validate taskEntity!
         
-        jdbcTemplate.update("insert into TASK(DESCRIPTION, TASKORDER, USER_ID) values(?, ?, ?)",
+        jdbcTemplate.update("insert into TASK(DESCRIPTION, TASKORDER, USER_ID, COMPLETE) "
+                + "values(?, ?, ?, ?)",
                 task.getDescription(),
                 task.getOrder(),
-                task.getUserId());
+                task.getUserId(),
+                task.isComplete());
 
         //TODO 2: IT WORKS FOR HSQLDB BUT DOES NOT FOR ANY OTHER DB!!!!
         return jdbcTemplate.queryForObject("select TOP 1 ID from TASK ORDER BY ID DESC", Integer.class);
@@ -74,7 +78,8 @@ public class TaskDAOImpl implements TaskDAO {
             throw new NullPointerException("userId parameter must be not null!");
         }
 
-        return jdbcTemplate.query("select * from TASK WHERE USER_ID = ? ORDER BY TASKORDER ASC",
+        return jdbcTemplate.query("select * from TASK "
+                + "WHERE USER_ID = ? AND COMPLETE = FALSE ORDER BY TASKORDER ASC",
                 new TaskEntityRowMapper(),
                 userId);
     }
@@ -117,6 +122,7 @@ public class TaskDAOImpl implements TaskDAO {
             task.setDescription(rs.getString("DESCRIPTION"));
             task.setOrder(rs.getInt("TASKORDER"));
             task.setUserId(rs.getString("USER_ID"));
+            task.setComplete(rs.getBoolean("COMPLETE"));
             return task;
         }
 
