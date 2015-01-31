@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
 import rh.persistence.service.OrderDistManager;
@@ -11,9 +12,9 @@ import rh.persistence.service.TagService;
 import rh.persistence.service.TaskService;
 
 //TODO 3 : it should be validated that the resource is not modified on update and removal
-//TODO 1 : Introduce transaction for persistence layer
 
 @Service
+@Transactional
 public class TaskServiceImpl implements TaskService {
 
     @Autowired

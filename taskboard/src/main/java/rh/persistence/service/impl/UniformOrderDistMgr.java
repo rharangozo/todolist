@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rh.domain.Task;
 import rh.persistence.dao.TaskDAO;
 import rh.persistence.service.NoFreeOrderException;
@@ -14,6 +15,7 @@ import rh.persistence.service.OrderDistManager;
 //the order of the tasks is not modifiable, no free space error is thrown
 
 @Service
+@Transactional
 public class UniformOrderDistMgr implements OrderDistManager {
 
     @Autowired
