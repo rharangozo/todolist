@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import rh.domain.Task;
 import rh.persistence.service.TaskService;
 
+//TODO 2: ETAG support
+
 @RestController
 @RequestMapping("/{user}")
 public class TaskController {

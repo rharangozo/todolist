@@ -26,6 +26,10 @@
   text-align: center;
 }
 
+#view-mode-toggle {
+  display:inline;
+}
+
 #main-content > div {
   padding-top: 20px;
 }
@@ -46,11 +50,15 @@
 
 }
 
-#main-content ul li:hover {
+#main-content ul li:not(.line-through):hover{
   background-color:#D9CFC3;
 }
 
-li:hover a{
+li:hover a.rm-btn{
+  display:inline;
+}
+
+li:not(.line-through):hover a.done-btn{
   display:inline;
 }
 
@@ -94,6 +102,10 @@ span.tag::before {
 
 .hidden {
   	display:none;
+}
+
+.line-through .desc {
+  text-decoration: line-through;
 }
 
 .editor > input {

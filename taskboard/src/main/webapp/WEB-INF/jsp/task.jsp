@@ -11,7 +11,13 @@
     </c:otherwise>
 </c:choose>
 
-<li data-id="${task.id}" ${task.complete eq true ? 'data-completed' : ''} class="${cssClass}">
+
+<%-- TODO 2: 
+    The default view mode is line-through regardless of the previous view mode if any
+    The website should remember the user's preference!
+--%>
+<li data-id="${task.id}" data-complete="${task.complete}" 
+    class="${cssClass} ${task.complete eq true ? 'line-through' : ''}">
 
     <div class="hidden editor">
         <input type="text" value="${task.description}"/>

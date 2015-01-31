@@ -29,7 +29,12 @@
 
                 <input id="smart-input" type="text" maxlength="50"/>
                 <button id="smart-btn" type="button">+</button>
-
+                
+                <div id="view-mode-toggle">
+                  <a id="view-mode-show" class="hidden">show</a>  
+                  <a id="view-mode-hide">hide</a>
+                </div>
+                
                 <ul>
                     <c:forEach items="${tasks}" var="task">
 

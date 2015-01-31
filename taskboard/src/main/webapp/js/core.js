@@ -1,17 +1,28 @@
 $(document).ready(function () {
 
     var user = window.location.pathname.split('/')[1];
+    var view_mode = 'line-through';
 
     function Task() {
         this.id = null;
         this.description = '';
         this.tags = [];
+        this.complete = false;
 
         this.applyEditor = function () {
             $('li[data-id=' + this.id + '] .editor input').val(this.toString());
         };
 
         this.applyNormal = function () {
+            //TODO 2: It can cause issues, JQuery caches the data attrs!!!
+            $('li[data-id=' + this.id + ']').attr('data-complete', this.complete);
+            
+            if(this.complete === true) {
+                $('li[data-id=' + this.id + ']').addClass(view_mode);
+            } else {
+                $('li[data-id=' + this.id + ']').removeClass(view_mode);
+            }
+            
             $('li[data-id=' + this.id + '] .normal span.desc').text(this.description);
             $('li[data-id=' + this.id + '] .normal span.tag').remove();
             this.tags.sort();
@@ -47,7 +58,9 @@ $(document).ready(function () {
         this.createNewDOMEntryWithoutTags = function () {
             $('#main-content ul')
                     .prepend($('#task-template').html())
-                    .find('li[data-id=\\$\\{id\\}]').attr('data-id', this.id);
+                    .find('li[data-id=\\$\\{id\\}]')
+                    .attr('data-id', this.id)
+                    .attr('data-complete', this.complete);
         };
         
         //TODO 2: add view swapping method
@@ -65,6 +78,22 @@ $(document).ready(function () {
         return task;
     }
 
+    $('#view-mode-show').click(function () {
+        view_mode = 'hidden';
+        $('#view-mode-show').addClass('hidden');
+        $('#view-mode-hide').removeClass('hidden');
+
+        $('li[data-complete=true]').removeClass('hidden').addClass('line-through');
+    });
+
+    $('#view-mode-hide').click(function () {
+        view_mode = 'line-through';
+        $('#view-mode-hide').addClass('hidden');
+        $('#view-mode-show').removeClass('hidden');
+
+        $('li[data-complete=true]').removeClass('line-through').addClass('hidden');
+    });
+
     $(document).on('click', 'li', function () {
         $(this).find('.normal').addClass("hidden");
         $(this).find('.editor').removeClass("hidden");
@@ -79,6 +108,7 @@ $(document).ready(function () {
     closeTaskEdit = function (editedTask) {
         var task = new Task();
         task.id = $(editedTask).data('id');
+        task.complete = $(editedTask).data('complete');
         task.initFromString($('li[data-id=' + task.id + '] .editor input').val());
         task.applyNormal();
         $(editedTask).find('.editor').addClass("hidden");
@@ -153,7 +183,6 @@ $(document).ready(function () {
         var taskLi = $(this).closest('li');
         var task = taskFromNormalView(taskLi.data('id'));
         
-        //TODO 0: the completeness should be stored! SEE BELOW!
         task.complete = true;
         
         $.ajax({
@@ -163,12 +192,7 @@ $(document).ready(function () {
             dataType: "text",
             contentType: "application/json",
             success: function () {
-                //TODO 0: INSTEAD OF REMOVAL, CROSS IT WITH A LINE
-                //OR HIDE IT IN ASSOCIATION WITH THE STATE OF THE VIEW
-                //WHICH CAN BE SHOW/HIDE TASKS COMPLETED
-                //IMPLEMENTATION: STORE THE COMPLETENESS AND
-                //IF IT CHANGES IN THE DOM, UPDATE THE VIEW ACCORDINGLY!
-                taskLi.remove();
+                task.applyNormal();
             }
         });
     });
